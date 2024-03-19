@@ -14,7 +14,7 @@ const DashboardLayout = ({ children }: LayoutProps) => {
         <Sidebar />
       </div>
       <Separator orientation="vertical"/>
-      <div className="flex-1 flex-col">
+      <div className="w-full flex flex-col">
         <NavbarUI />
         <Separator />
         <div className="flex-grow">{children}</div>

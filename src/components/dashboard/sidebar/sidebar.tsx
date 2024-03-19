@@ -10,16 +10,6 @@ import {
   MdHelpCenter,
   MdDraw,
 } from "react-icons/md";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -33,138 +23,130 @@ import {
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
+import React from "react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-const menuItems = [
+const menuPage = [
   {
-    title: "Pages",
-    list: [
-      {
-        title: "Dashboard",
-        path: "/dashboard",
-        icon: <MdDashboard />,
-      },
-      {
-        title: "Element",
-        path: "/dashboard/element",
-        icon: <MdAddBox />,
-      },
-      {
-        title: "Product",
-        path: "/dashboard/product",
-        icon: <MdShoppingBag />,
-      },
-      {
-        title: "Channel",
-        path: "/dashboard/channel",
-        icon: <MdDraw />,
-      },
-      {
-        title: "Order",
-        path: "/dashboard/order",
-        icon: <MdAssignmentAdd />,
-      },
-    ],
+    title: "Dashboard",
+    path: "/dashboard",
+    icon: <MdDashboard />,
   },
   {
+    title: "Element",
+    path: "/dashboard/element",
+    icon: <MdAddBox />,
+  },
+  {
+    title: "Product",
+    path: "/dashboard/product",
+    icon: <MdShoppingBag />,
+  },
+  {
+    title: "Channel",
+    path: "/dashboard/channel",
+    icon: <MdDraw />,
+  },
+  {
+    title: "Order",
+    path: "/dashboard/order",
+    icon: <MdAssignmentAdd />,
+  },
+];
+
+const menuUser = [
+  {
     title: "User",
-    list: [
-      {
-        title: "Info",
-        path: "/dashboard/user",
-        icon: <MdHelpCenter />,
-      },
-      {
-        title: "Team",
-        path: "/dashboard/user/team",
-        icon: <MdPeople />,
-      },
-      {
-        title: "Logs",
-        path: "/dashboard/user/log",
-        icon: <MdAnalytics />,
-      },
-      {
-        title: "Settings",
-        path: "/dashboard/user/setting",
-        icon: <MdOutlineSettings />,
-      },
-    ],
+    path: "/dashboard/user",
+    icon: <MdHelpCenter />,
+  },
+  {
+    title: "Team",
+    path: "/dashboard/team",
+    icon: <MdPeople />,
+  },
+  {
+    title: "Logfile",
+    path: "/dashboard/logfile",
+    icon: <MdAnalytics />,
+  },
+  {
+    title: "Config",
+    path: "/dashboard/config",
+    icon: <MdOutlineSettings />,
   },
 ];
 
 const Sidebar = () => {
   return (
     <div className="flex flex-col ">
-      <div className="w-full h-14">
+      <div className="w-full h-14 p-2">
         <Avatar>
           <AvatarImage
             className="h-12 w-12"
             src="https://github.com/shadcn.png"
           />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarFallback>ZZ</AvatarFallback>
         </Avatar>
       </div>
       <Separator />
       <div className="p-2">
-      <Select>
-        <SelectTrigger className="">
-          <SelectValue placeholder="Select a fruit"></SelectValue>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup >
-            <SelectLabel>Choose Country</SelectLabel>
-            <SelectItem  value="DE">DE-Server</SelectItem>
-            <SelectItem value="IT">IT-Server</SelectItem>
-            <SelectItem value="FR">FR-Server</SelectItem>
-            <SelectItem value="UK">UK-Server</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+        <Select>
+          <SelectTrigger className="shadow">
+            <SelectValue placeholder="Select a Server"></SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Choose Server</SelectLabel>
+              <SelectItem value="DE">DE-Server</SelectItem>
+              <SelectItem value="IT">IT-Server</SelectItem>
+              <SelectItem value="FR">FR-Server</SelectItem>
+              <SelectItem value="UK">UK-Server</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
       <ScrollArea className="h-full rounded-md">
-      <Button
-          variant="outline"
-          role="combobox"
-          // aria-expanded={open}
-          className="w-[200px] justify-between"
+        <ToggleGroup
+          type="single"
+          className="list-none p-1 flex flex-col gap-1"
         >
-          </Button>
-        <Button variant="ghost" className="w-full">Element</Button>
-        {/* <Tabs defaultValue="account" className="w-[100px]" >
-          <TabsList >
-            <TabsTrigger value="account">Account</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
-          </TabsList>
-        </Tabs> */}
+          {menuPage.map((item) => (
+            <Button
+              variant="ghost"
+              className="w-full justify-start p-0 m-0 flex flex-col gap-2 my-5"
+              key={item.path}
+            >
+              <Link href={item?.path} className="w-full justify-start p-0 m-0">
+                {/* <ToggleGroupItem
+                  value={item.path}
+                  key={item.path}
+                  className="w-full h-full justify-start p-0 m-0 flex gap-2 my-5"
+                > */}
+                {React.cloneElement(item?.icon, { className: "w-5 h-5" })}
+                <span>{item?.title}</span>
+                {/* </ToggleGroupItem> */}
+              </Link>
+            </Button>
+          ))}
+          <Separator />
+          {menuUser.map((item) => (
+            <Button
+              variant="ghost"
+              className="w-full justify-start"
+              key={item.title}
+            >
+              <Link href={item?.path} className="flex gap-2 my-5">
+                {React.cloneElement(item?.icon, { className: "w-5 h-5" })}
+                <span>{item?.title}</span>
+              </Link>
+            </Button>
+          ))}
+        </ToggleGroup>
       </ScrollArea>
     </div>
   );
 };
 
 export default Sidebar;
-
-{
-  /* <ScrollArea className="h-500 w-48 rounded-md border"> */
-}
-{
-  /* <Command className="h-full rounded-lg shadow-md">
-        <CommandInput placeholder="Type a command or search..." />
-        <CommandList className="h-full rounded-lg border shadow-md">
-          {menuItems.map((item) => (
-            <CommandGroup key={item.title} heading={item.title}>
-              {item.list.map((itemItem) => (
-                <CommandItem key={itemItem.path}>
-                  <span className="mr-2 h-4 w-4">{itemItem.icon}</span>
-                  <span>{itemItem.title}</span>
-                </CommandItem>
-              ))}
-              <CommandSeparator key={item.title} />
-            </CommandGroup>
-          ))}
-        </CommandList>
-      </Command> */
-}
-{
-  /* </ScrollArea> */
-}
